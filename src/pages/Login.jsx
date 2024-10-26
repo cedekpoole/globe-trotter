@@ -1,12 +1,18 @@
 import { useState } from "react";
 import Button from "../components/Button";
+import PropTypes from "prop-types";
 
-export default function Login() {
+Login.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+};
+
+export default function Login({ setIsLoggedIn }) {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty12345");
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoggedIn(true);
   };
 
   return (
