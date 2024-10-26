@@ -8,7 +8,9 @@ export default function Product() {
           className="w-full max-w-full lg:max-w-md rounded-lg"
         />
         <div>
-          <h2 className="text-4xl leading-tight mb-12">About GlobeTrotter.</h2>
+          <h2 className="text-4xl leading-tight mb-12 font-montserrat">
+            About <span className="font-bold">GlobeTrotter</span>.
+          </h2>
           <p className="text-lg mb-8">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo est
             dicta illum vero culpa cum quaerat architecto sapiente eius non

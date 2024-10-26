@@ -3,7 +3,7 @@ export default function Product() {
     <main className="p-3 mt-10">
       <section className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
         <div>
-          <h2 className="text-4xl leading-tight mb-12 font-bold">
+          <h2 className="text-4xl leading-tight mb-12 font-bold font-montserrat">
             Simple pricing.
             <span className="block font-normal mt-2">Just £9/month.</span>
           </h2>
