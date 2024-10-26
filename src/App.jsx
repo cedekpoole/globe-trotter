@@ -6,7 +6,7 @@ import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto min-h-screen">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
