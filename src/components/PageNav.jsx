@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
+import logo from "../assets/GlobeTrotter.svg";
 
 function PageNav() {
   return (
     <nav className="flex justify-between items-center py-3">
-      <h1 className="text-3xl">GlobeTrotter</h1>
+      <img src={logo} />
       <ul className="flex w-1/2 justify-between p-5">
         <li>
           <NavLink to="/">Home</NavLink>
