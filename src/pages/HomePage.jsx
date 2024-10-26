@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Button from "../components/Button";
 
 function HomePage() {
   return (
@@ -10,15 +11,13 @@ function HomePage() {
             GlobeTrotter
           </span>
         </h1>
-        <h2 className="text-lg text-[#F3E9DC] leading-relaxed mb-4">
+        <h2 className="text-lg text-[#F3E9DC] leading-relaxed mb-6">
           Track your footsteps across a world map that highlights every city you
           have visited. Relive your incredible experiences and share your global
           journey with friends, celebrating each adventure along the way.
         </h2>
         <Link to="/app">
-          <button className="mt-6 px-6 py-2 rounded-full bg-[#A6714D] text-[#F3E9DC] text-lg font-medium hover:bg-[#91603C] transition-colors duration-300 ease-in-out shadow-md">
-            Get Started
-          </button>
+          <Button>Get Started</Button>
         </Link>
       </section>
     </main>
