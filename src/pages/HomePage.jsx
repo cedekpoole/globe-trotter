@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function HomePage() {
   return (
     <main className="flex flex-col items-center p-6 bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat rounded-lg">
@@ -13,9 +15,11 @@ function HomePage() {
           have visited. Relive your incredible experiences and share your global
           journey with friends, celebrating each adventure along the way.
         </h2>
-        <button className="mt-6 px-6 py-2 rounded-full bg-[#A6714D] text-[#F3E9DC] text-lg font-medium hover:bg-[#91603C] transition-colors duration-300 ease-in-out shadow-md">
-          Get Started
-        </button>
+        <Link to="/app">
+          <button className="mt-6 px-6 py-2 rounded-full bg-[#A6714D] text-[#F3E9DC] text-lg font-medium hover:bg-[#91603C] transition-colors duration-300 ease-in-out shadow-md">
+            Get Started
+          </button>
+        </Link>
       </section>
     </main>
   );
