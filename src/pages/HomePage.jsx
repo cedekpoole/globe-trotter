@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import PageNav from "../components/PageNav";
 
 function HomePage() {
   return (
-    <div>
+    <div className="container mx-auto">
+      <PageNav />
       <h1 className="text-5xl">Home Page</h1>
-      <Link to="/pricing">This is the pricing page</Link>
     </div>
   );
 }
