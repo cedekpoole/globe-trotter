@@ -16,7 +16,7 @@ function HomePage() {
           journey with friends, celebrating each adventure along the way.
         </h2>
 
-        <Button link={"/app"}>Get Started</Button>
+        <Button link={"/login"}>Get Started</Button>
       </section>
     </main>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 Login.propTypes = {
@@ -9,10 +9,12 @@ Login.propTypes = {
 export default function Login({ setIsLoggedIn }) {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty12345");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoggedIn(true);
+    navigate("/app");
   };
 
   return (
@@ -55,9 +57,9 @@ export default function Login({ setIsLoggedIn }) {
           />
         </div>
 
-        <Button type="submit" link={"/app"}>
+        <button className="px-2" type="submit">
           Log in
-        </Button>
+        </button>
       </form>
     </main>
   );
