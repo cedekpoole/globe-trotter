@@ -10,10 +10,10 @@ export default function Login() {
   };
 
   return (
-    <main className="mt-5 flex items-center justify-center min-h-[calc(100vh-8rem)] bg-[url('/login.jpg')] bg-cover bg-center bg-no-repeat rounded-lg">
+    <main className="mt-5 flex items-center justify-center min-h-[calc(100vh-8rem)]">
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-md p-8 space-y-6 rounded-lg shadow-lg bg-[#242424] bg-opacity-80"
+        className="w-full max-w-lg p-8 space-y-6 rounded-lg shadow-lg bg-[#302e2e]"
       >
         <h2 className="text-2xl font-bold text-center font-montserrat">
           Log in to GlobeTrotter
