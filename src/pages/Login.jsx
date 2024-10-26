@@ -55,7 +55,9 @@ export default function Login({ setIsLoggedIn }) {
           />
         </div>
 
-        <Button type="submit">Log in</Button>
+        <Button type="submit" link={"/app"}>
+          Log in
+        </Button>
       </form>
     </main>
   );

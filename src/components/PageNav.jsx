@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import Button from "./Button";
 
@@ -13,9 +13,8 @@ function PageNav() {
         <li className="hover:text-[#E2B07E]">
           <NavLink to="/pricing">PRICING</NavLink>
         </li>
-        <Link to="/login">
-          <Button>LOG IN</Button>
-        </Link>
+
+        <Button link={"/login"}>LOG IN</Button>
       </ul>
     </nav>
   );

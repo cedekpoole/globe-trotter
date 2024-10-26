@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Button from "../components/Button";
 
 function HomePage() {
@@ -16,9 +15,8 @@ function HomePage() {
           have visited. Relive your incredible experiences and share your global
           journey with friends, celebrating each adventure along the way.
         </h2>
-        <Link to="/app">
-          <Button>Get Started</Button>
-        </Link>
+
+        <Button link={"/app"}>Get Started</Button>
       </section>
     </main>
   );
