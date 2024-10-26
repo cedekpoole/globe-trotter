@@ -7,7 +7,7 @@ import PageNav from "./components/PageNav";
 
 function App() {
   return (
-    <div className="container mx-auto min-h-screen">
+    <div className="container mx-auto min-h-screen font-raleway">
       <BrowserRouter>
         <PageNav />
         <Routes>

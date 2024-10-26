@@ -8,7 +8,7 @@ function HomePage() {
             GlobeTrotter
           </span>
         </h1>
-        <h2 className="font-raleway text-lg text-[#F3E9DC] leading-relaxed mb-4">
+        <h2 className="text-lg text-[#F3E9DC] leading-relaxed mb-4">
           Track your footsteps across a world map that highlights every city you
           have visited. Relive your incredible experiences and share your global
           journey with friends, celebrating each adventure along the way.
