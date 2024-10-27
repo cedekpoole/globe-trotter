@@ -8,6 +8,7 @@ import PageNav from "./components/PageNav";
 import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
 import PropTypes from "prop-types";
+import CityList from "./components/CityList";
 
 ProtectedRoutes.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
@@ -37,8 +38,8 @@ function ProtectedRoutes({ isLoggedIn, setIsLoggedIn }) {
         <Route path="product" element={<Product />} />
         <Route path="pricing" element={<Pricing />} />
         <Route path="app" element={<AppLayout isLoggedIn={isLoggedIn} />}>
-          <Route index element={<h1>List of Cities</h1>} />
-          <Route path="cities" element={<h1>List of Cities</h1>} />
+          <Route index element={<CityList />} />
+          <Route path="cities" element={<CityList />} />
           <Route path="countries" element={<h1>List of Countries</h1>} />
           <Route path="form" element={<h1>Form</h1>} />
         </Route>
