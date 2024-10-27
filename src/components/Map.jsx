@@ -1,6 +1,7 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Map() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const coordinates = {
@@ -8,7 +9,12 @@ function Map() {
     lng: searchParams.get("lng") || 0,
   };
   return (
-    <main className="w-full lg:w-2/3 p-6">
+    <main
+      className="w-full lg:w-2/3 p-6"
+      onClick={() => {
+        navigate("form");
+      }}
+    >
       <h1 className="text-3xl font-bold mb-6">Main Content</h1>
       <h2>
         Position: {coordinates.lat}, {coordinates.lng}
