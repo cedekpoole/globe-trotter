@@ -5,9 +5,9 @@ CityItem.propTypes = {
 };
 
 const formatDate = (date) => {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "long",
+  return new Date(date).toLocaleDateString("en-UK", {
     day: "numeric",
+    month: "long",
     year: "numeric",
   });
 };
@@ -15,10 +15,17 @@ const formatDate = (date) => {
 function CityItem({ city }) {
   const { cityName, emoji, date } = city;
   return (
-    <li className="flex justify-between py-2 px-3 bg-[#302e2e] rounded-lg">
-      <p>{emoji}</p>
-      <h2>{cityName}</h2>
-      <time>{formatDate(date)}</time>
+    <li className="flex justify-between py-2 px-3 bg-[#302e2e] rounded-lg items-center">
+      <div className="flex gap-3 items-center">
+        <p className="text-3xl">{emoji}</p>
+        <h2>{cityName}</h2>
+      </div>
+      <div className="flex gap-3 items-center">
+        <time>{formatDate(date)}</time>
+        <button className=" px-1.5 bg-[#1d1c1c] text-xl rounded-full">
+          &times;
+        </button>
+      </div>
     </li>
   );
 }
