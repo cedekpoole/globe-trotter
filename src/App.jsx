@@ -13,11 +13,15 @@ import CityList from "./components/CityList";
 ProtectedRoutes.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   setIsLoggedIn: PropTypes.func.isRequired,
+  cities: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const protectedRoutes = ["/app", "/app/cities", "/app/countries", "/app/form"];
 
-function ProtectedRoutes({ isLoggedIn, setIsLoggedIn }) {
+const BASE_URL = "http://localhost:8000/";
+
+function ProtectedRoutes({ isLoggedIn, setIsLoggedIn, cities, isLoading }) {
   const location = useLocation();
 
   useEffect(() => {
@@ -38,8 +42,14 @@ function ProtectedRoutes({ isLoggedIn, setIsLoggedIn }) {
         <Route path="product" element={<Product />} />
         <Route path="pricing" element={<Pricing />} />
         <Route path="app" element={<AppLayout isLoggedIn={isLoggedIn} />}>
-          <Route index element={<CityList />} />
-          <Route path="cities" element={<CityList />} />
+          <Route
+            index
+            element={<CityList cities={cities} isLoading={isLoading} />}
+          />
+          <Route
+            path="cities"
+            element={<CityList cities={cities} isLoading={isLoading} />}
+          />
           <Route path="countries" element={<h1>List of Countries</h1>} />
           <Route path="form" element={<h1>Form</h1>} />
         </Route>
@@ -52,6 +62,23 @@ function ProtectedRoutes({ isLoggedIn, setIsLoggedIn }) {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCities() {
+      try {
+        const res = await fetch(`${BASE_URL}cities`);
+        const data = await res.json();
+        setCities(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchCities();
+  }, []);
 
   return (
     <div className="container mx-auto min-h-screen font-raleway">
@@ -59,6 +86,8 @@ function App() {
         <ProtectedRoutes
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
+          cities={cities}
+          isLoading={isLoading}
         />
       </BrowserRouter>
     </div>
