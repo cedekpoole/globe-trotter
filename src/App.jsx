@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  matchPath,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import Product from "./pages/Product";
 import Pricing from "./pages/Pricing";
@@ -12,6 +18,7 @@ import CountriesList from "./components/CountriesList";
 import City from "./components/City";
 
 const protectedRoutes = ["/app", "/app/cities", "/app/countries", "/app/form"];
+const dynamicProtectedRoutes = ["/app/cities/:id"];
 const BASE_URL = "http://localhost:8000/";
 
 function App() {
@@ -21,7 +28,9 @@ function App() {
 
   // useLocation can now safely be used here because App is wrapped by BrowserRouter
   const location = useLocation();
-  const isProtectedRoute = protectedRoutes.includes(location.pathname);
+  const isProtectedRoute =
+    protectedRoutes.includes(location.pathname) ||
+    dynamicProtectedRoutes.some((route) => matchPath(route, location.pathname));
 
   useEffect(() => {
     async function fetchCities() {
