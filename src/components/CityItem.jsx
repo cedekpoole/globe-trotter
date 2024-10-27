@@ -14,11 +14,11 @@ const formatDate = (date) => {
 };
 
 function CityItem({ city }) {
-  const { cityName, emoji, date, id } = city;
+  const { cityName, emoji, date, id, position } = city;
   return (
     <li>
       <Link
-        to={`${id}`}
+        to={`${id}?lat=${position.lat}&lng=${position.lng}`}
         className="flex justify-between py-2 px-3 bg-[#302e2e] rounded-lg items-center"
       >
         <div className="flex gap-3 items-center">
