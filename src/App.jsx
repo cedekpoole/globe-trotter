@@ -7,36 +7,40 @@ import PageNotFound from "./pages/PageNotFound";
 import PageNav from "./components/PageNav";
 import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
-import PropTypes from "prop-types";
 import CityList from "./components/CityList";
 
-ProtectedRoutes.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  setIsLoggedIn: PropTypes.func.isRequired,
-  cities: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};
-
 const protectedRoutes = ["/app", "/app/cities", "/app/countries", "/app/form"];
-
 const BASE_URL = "http://localhost:8000/";
 
-function ProtectedRoutes({ isLoggedIn, setIsLoggedIn, cities, isLoading }) {
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // useLocation can now safely be used here because App is wrapped by BrowserRouter
   const location = useLocation();
+  const isProtectedRoute = protectedRoutes.includes(location.pathname);
 
   useEffect(() => {
-    // Check if the current path is a protected route
-    if (!protectedRoutes.includes(location.pathname) && !isLoggedIn) {
-      // Set isLoggedIn to false when navigating away from protected routes
-      setIsLoggedIn(false);
+    async function fetchCities() {
+      try {
+        const res = await fetch(`${BASE_URL}cities`);
+        const data = await res.json();
+        setCities(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, [location.pathname, isLoggedIn, setIsLoggedIn]);
+    fetchCities();
+  }, []);
 
   return (
-    <>
-      {!isLoggedIn && !protectedRoutes.includes(location.pathname) && (
-        <PageNav />
-      )}
+    <div className="container mx-auto min-h-screen font-raleway">
+      {/* Render PageNav if not on a protected route */}
+      {!isProtectedRoute && <PageNav />}
+
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="product" element={<Product />} />
@@ -56,42 +60,14 @@ function ProtectedRoutes({ isLoggedIn, setIsLoggedIn, cities, isLoading }) {
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-    </>
-  );
-}
-
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cities, setCities] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchCities() {
-      try {
-        const res = await fetch(`${BASE_URL}cities`);
-        const data = await res.json();
-        setCities(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchCities();
-  }, []);
-
-  return (
-    <div className="container mx-auto min-h-screen font-raleway">
-      <BrowserRouter>
-        <ProtectedRoutes
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          cities={cities}
-          isLoading={isLoading}
-        />
-      </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+export default function RootApp() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}

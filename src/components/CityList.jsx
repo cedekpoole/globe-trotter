@@ -10,7 +10,7 @@ CityList.propTypes = {
 function CityList({ cities, isLoading }) {
   if (isLoading) return <Loader />;
   return (
-    <ul>
+    <ul className="flex flex-col gap-2">
       {cities.map((city) => (
         <CityItem key={city.id} city={city} />
       ))}
