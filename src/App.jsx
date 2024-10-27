@@ -14,28 +14,34 @@ ProtectedRoutes.propTypes = {
   setIsLoggedIn: PropTypes.func.isRequired,
 };
 
+const protectedRoutes = ["/app", "/app/cities", "/app/countries", "/app/form"];
+
 function ProtectedRoutes({ isLoggedIn, setIsLoggedIn }) {
   const location = useLocation();
 
   useEffect(() => {
-    // List of protected routes that require the user to be logged in
-    const protectedRoutes = ["/app"];
-
     // Check if the current path is a protected route
-    if (!protectedRoutes.includes(location.pathname)) {
+    if (!protectedRoutes.includes(location.pathname) && !isLoggedIn) {
       // Set isLoggedIn to false when navigating away from protected routes
       setIsLoggedIn(false);
     }
-  }, [location.pathname, setIsLoggedIn]);
+  }, [location.pathname, isLoggedIn, setIsLoggedIn]);
 
   return (
     <>
-      {!isLoggedIn && <PageNav />}
+      {!isLoggedIn && !protectedRoutes.includes(location.pathname) && (
+        <PageNav />
+      )}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="product" element={<Product />} />
         <Route path="pricing" element={<Pricing />} />
-        <Route path="app" element={<AppLayout isLoggedIn={isLoggedIn} />} />
+        <Route path="app" element={<AppLayout isLoggedIn={isLoggedIn} />}>
+          <Route index element={<h1>List of Cities</h1>} />
+          <Route path="cities" element={<h1>List of Cities</h1>} />
+          <Route path="countries" element={<h1>List of Countries</h1>} />
+          <Route path="form" element={<h1>Form</h1>} />
+        </Route>
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
