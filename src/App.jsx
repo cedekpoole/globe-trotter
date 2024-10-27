@@ -8,6 +8,7 @@ import PageNav from "./components/PageNav";
 import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
 import CityList from "./components/CityList";
+import CountriesList from "./components/CountriesList";
 
 const protectedRoutes = ["/app", "/app/cities", "/app/countries", "/app/form"];
 const BASE_URL = "http://localhost:8000/";
@@ -54,7 +55,10 @@ function App() {
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
           />
-          <Route path="countries" element={<h1>List of Countries</h1>} />
+          <Route
+            path="countries"
+            element={<CountriesList cities={cities} isLoading={isLoading} />}
+          />
           <Route path="form" element={<h1>Form</h1>} />
         </Route>
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
