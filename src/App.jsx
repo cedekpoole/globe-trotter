@@ -16,6 +16,7 @@ import AppLayout from "./pages/AppLayout";
 import CityList from "./components/CityList";
 import CountriesList from "./components/CountriesList";
 import City from "./components/City";
+import Form from "./components/Form";
 
 const protectedRoutes = ["/app", "/app/cities", "/app/countries", "/app/form"];
 const dynamicProtectedRoutes = ["/app/cities/:id"];
@@ -70,7 +71,7 @@ function App() {
             path="countries"
             element={<CountriesList cities={cities} isLoading={isLoading} />}
           />
-          <Route path="form" element={<h1>Form</h1>} />
+          <Route path="form" element={<Form />} />
         </Route>
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="*" element={<PageNotFound />} />
