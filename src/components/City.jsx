@@ -1,6 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 function City() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const coordinates = {
+    lat: searchParams.get("lat") || 0,
+    lng: searchParams.get("lng") || 0,
+  };
   const { id } = useParams();
   const currentCity = {
     cityName: "City Name",
@@ -10,7 +16,14 @@ function City() {
   };
 
   const { cityName, date, emoji, notes } = currentCity;
-  return <div>CITY {id} </div>;
+  return (
+    <div>
+      <h1>CITY {id}</h1>
+      <p>
+        Position: {coordinates.lat}, {coordinates.lng}
+      </p>
+    </div>
+  );
 }
 
 export default City;
