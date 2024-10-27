@@ -6,9 +6,9 @@ CountryItem.propTypes = {
 
 function CountryItem({ country }) {
   return (
-    <li className="flex gap-3">
-      <p>{country.emoji}</p>
-      <p>{country.country}</p>
+    <li className="flex gap-5 p-2 bg-[#302e2e] border-r-2 border-[#2A8D3F] shadow-md rounded-l-md rounded-r-sm items-center">
+      <p className="text-xl">{country.emoji}</p>
+      <p className="font-semibold">{country.country}</p>
     </li>
   );
 }

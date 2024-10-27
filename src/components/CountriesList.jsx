@@ -9,7 +9,14 @@ CountriesList.propTypes = {
 };
 
 function CountriesList({ cities, isLoading }) {
-  const countries = [];
+  const countries = cities.reduce((arr, city) => {
+    if (!arr.map((el) => el.country).includes(city.country))
+      return [
+        ...arr,
+        { id: city.country, country: city.country, emoji: city.emoji },
+      ];
+    else return arr;
+  }, []);
   if (isLoading) return <Loader />;
 
   if (!cities.length)
@@ -19,7 +26,7 @@ function CountriesList({ cities, isLoading }) {
       </Message>
     );
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="grid grid-cols-2 gap-3">
       {countries.map((country) => (
         <CountryItem key={country.id} country={country} />
       ))}
