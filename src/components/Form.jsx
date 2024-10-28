@@ -9,10 +9,18 @@ export function convertToEmoji(countryCode) {
   return String.fromCodePoint(...codePoints);
 }
 
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString("en-UK", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 function Form() {
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(formatDate(new Date()));
   const [notes, setNotes] = useState("");
 
   return (
@@ -46,7 +54,7 @@ function Form() {
       </div>
 
       <div className="flex justify-between">
-        <button>Add</button>
+        <button onClick={(e) => e.preventDefault()}>Add</button>
         <BackBtn>&larr; Back</BackBtn>
       </div>
     </form>
