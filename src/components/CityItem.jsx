@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useCities } from "../contexts/CitiesContext";
 
 CityItem.propTypes = {
   city: PropTypes.object.isRequired,
@@ -14,12 +15,16 @@ const formatDate = (date) => {
 };
 
 function CityItem({ city }) {
+  const { currentCity } = useCities();
+
   const { cityName, emoji, date, id, position } = city;
   return (
     <li>
       <Link
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
-        className="flex justify-between py-2 px-3 bg-[#302e2e] rounded-lg items-center"
+        className={`flex justify-between py-2 px-3 bg-[#302e2e] rounded-lg items-center ${
+          currentCity.id === id ? "border-2 border-[#2A8D3F]" : ""
+        }`}
       >
         <div className="flex gap-3 items-center">
           <p className="text-3xl">{emoji}</p>
