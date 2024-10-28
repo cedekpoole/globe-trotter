@@ -1,14 +1,11 @@
 import Loader from "./Loader";
-import PropTypes from "prop-types";
 import Message from "./Message";
 import CountryItem from "./CountryItem";
+import { useCities } from "../contexts/CitiesContext";
 
-CountriesList.propTypes = {
-  cities: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};
+function CountriesList() {
+  const { cities, isLoading } = useCities();
 
-function CountriesList({ cities, isLoading }) {
   const countries = cities.reduce((arr, city) => {
     if (!arr.map((el) => el.country).includes(city.country))
       return [

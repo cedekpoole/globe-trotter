@@ -1,14 +1,11 @@
+import { useCities } from "../contexts/CitiesContext";
 import CityItem from "./CityItem";
 import Loader from "./Loader";
-import PropTypes from "prop-types";
 import Message from "./Message";
 
-CityList.propTypes = {
-  cities: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};
+function CityList() {
+  const { cities, isLoading } = useCities();
 
-function CityList({ cities, isLoading }) {
   if (isLoading) return <Loader />;
 
   if (!cities.length)
