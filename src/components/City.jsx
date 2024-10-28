@@ -22,7 +22,7 @@ function City() {
 
   const { cityName, date, emoji, notes } = currentCity;
 
-  if (isLoading) return <Loader />;
+  if (isLoading || id !== currentCity.id) return <Loader />;
 
   return (
     <div className="bg-[#302e2e] p-5 rounded-md shadow-md flex flex-col gap-4">
