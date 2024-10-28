@@ -10,7 +10,7 @@ function BackBtn({ children }) {
 
   return (
     <button
-      className="border"
+      className="border p-1 rounded"
       onClick={(e) => {
         e.preventDefault();
         navigate(-1);

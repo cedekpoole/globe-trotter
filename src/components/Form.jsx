@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import BackBtn from "./BackBtn";
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -14,8 +14,6 @@ function Form() {
   const [country, setCountry] = useState("");
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
-
-  const navigate = useNavigate();
 
   return (
     <form className="flex flex-col gap-3 bg-[#302e2e] rounded p-3 shadow-md">
@@ -49,14 +47,7 @@ function Form() {
 
       <div className="flex justify-between">
         <button>Add</button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            navigate(-1);
-          }}
-        >
-          &larr; Back
-        </button>
+        <BackBtn>&larr; Back</BackBtn>
       </div>
     </form>
   );
