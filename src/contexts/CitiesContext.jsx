@@ -55,6 +55,13 @@ function reducer(state, action) {
         error: action.payload,
         isLoading: false,
       };
+    case "city/reset":
+      return {
+        ...state,
+        currentCity: {},
+      };
+    default:
+      throw new Error("Unknown action type");
   }
 }
 
@@ -123,6 +130,10 @@ function CitiesProvider({ children }) {
     }
   }
 
+  function clearCurrentCity() {
+    dispatch({ type: "city/reset" });
+  }
+
   return (
     <CitiesContext.Provider
       value={{
@@ -133,6 +144,7 @@ function CitiesProvider({ children }) {
         getCityByID,
         createCity,
         deleteCity,
+        clearCurrentCity,
       }}
     >
       {children}

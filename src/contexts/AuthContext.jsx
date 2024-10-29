@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import PropTypes from "prop-types";
+import { useCities } from "./CitiesContext";
 
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
@@ -43,6 +44,9 @@ function AuthProvider({ children }) {
     reducer,
     initialState
   );
+
+  const { clearCurrentCity } = useCities();
+
   function login(email, password) {
     if (email === FAKE_USER.email && password === FAKE_USER.password) {
       dispatch({ type: "login", payload: FAKE_USER });
@@ -52,6 +56,7 @@ function AuthProvider({ children }) {
   }
 
   function logout() {
+    clearCurrentCity();
     dispatch({ type: "logout" });
   }
 
