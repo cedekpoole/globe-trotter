@@ -10,7 +10,7 @@ function BackBtn({ children }) {
 
   return (
     <button
-      className="border p-1 rounded"
+      className="border border-gray-300 px-2 py-1 rounded transition duration-200 ease-in-out hover:bg-gray-200 hover:border-gray-400 hover:text-gray-700"
       onClick={(e) => {
         e.preventDefault();
         navigate(-1);

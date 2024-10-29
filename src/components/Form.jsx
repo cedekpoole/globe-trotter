@@ -24,32 +24,41 @@ function Form() {
   const [notes, setNotes] = useState("");
 
   return (
-    <form className="flex flex-col gap-3 bg-[#302e2e] rounded p-3 shadow-md">
-      <div className="flex flex-col">
-        <label htmlFor="cityName">City name</label>
+    <form className="flex flex-col gap-4 bg-[#302e2e] rounded-lg p-4 shadow-md">
+      <div className="flex flex-col gap-2">
+        <label htmlFor="cityName" className="font-light">
+          CITY NAME
+        </label>
         <input
           id="cityName"
           onChange={(e) => setCityName(e.target.value)}
           value={cityName}
+          className="p-1 rounded"
         />
         {/* <span className={styles.flag}>{emoji}</span> */}
       </div>
 
-      <div className="flex flex-col">
-        <label htmlFor="date">When did you go to {cityName}?</label>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="date" className="font-light">
+          WHEN DID YOU GO?
+        </label>
         <input
           id="date"
           onChange={(e) => setDate(e.target.value)}
           value={date}
+          className="p-1 rounded"
         />
       </div>
 
-      <div className="flex flex-col">
-        <label htmlFor="notes">Notes about your trip to {cityName}</label>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="notes" className="font-light">
+          NOTES ABOUT YOUR ADVENTURE
+        </label>
         <textarea
           id="notes"
           onChange={(e) => setNotes(e.target.value)}
           value={notes}
+          className="p-1 rounded h-30 overflow-auto resize-none"
         />
       </div>
 
