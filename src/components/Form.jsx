@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BackBtn from "./BackBtn";
+import { useUrlPosition } from "../hooks/useUrlPosition";
+import Loader from "./Loader";
+import Message from "./Message";
 
-export function convertToEmoji(countryCode) {
+function convertToEmoji(countryCode) {
   const codePoints = countryCode
     .toUpperCase()
     .split("")
@@ -17,15 +20,54 @@ const formatDate = (date) => {
   });
 };
 
+const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
+
 function Form() {
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
   const [date, setDate] = useState(formatDate(new Date()));
   const [notes, setNotes] = useState("");
+  const [lat, lng] = useUrlPosition();
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [emoji, setEmoji] = useState("");
+  const [geocodingError, setGeocodingError] = useState("");
+
+  useEffect(() => {
+    async function getCityName() {
+      if (lat && lng) {
+        try {
+          setIsLoadingLocation(true);
+          setGeocodingError("");
+          const res = await fetch(
+            `${BASE_URL}?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+          );
+          const data = await res.json();
+
+          if (!data.countryCode)
+            throw new Error(
+              "This area does not have city. Please try another location."
+            );
+          setCityName(data.city || data.locality || "");
+          setCountry(data.countryName);
+          setEmoji(convertToEmoji(data.countryCode));
+        } catch (err) {
+          setGeocodingError(err.message);
+        } finally {
+          setIsLoadingLocation(false);
+        }
+      }
+    }
+    getCityName();
+  }, [lat, lng]);
+
+  if (isLoadingLocation) return <Loader />;
+  if (!lat && !lng)
+    return <Message>Click on the map to add a new location!</Message>;
+  if (geocodingError) return <Message>{geocodingError}</Message>;
 
   return (
     <form className="flex flex-col gap-4 bg-[#302e2e] rounded-lg p-4 shadow-md">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 relative">
         <label htmlFor="cityName" className="font-light">
           CITY NAME
         </label>
@@ -35,7 +77,7 @@ function Form() {
           value={cityName}
           className="p-1 rounded"
         />
-        {/* <span className={styles.flag}>{emoji}</span> */}
+        <span className="absolute right-1 -top-1 text-3xl ">{emoji}</span>
       </div>
 
       <div className="flex flex-col gap-2">
