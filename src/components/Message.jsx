@@ -5,7 +5,16 @@ Message.propTypes = {
 };
 
 function Message({ children }) {
-  return <p className="text-2xl font-semibold text-center">{children}</p>;
+  return (
+    <div className="text-2xl font-semibold text-center min-h-52 relative">
+      {children}
+      <img
+        src="/globe-icon.svg"
+        alt="Globe"
+        className="absolute right-1 bottom-10 left-1/2 transform -translate-x-1/2 w-20 h-auto animate-pulse"
+      />
+    </div>
+  );
 }
 
 export default Message;
