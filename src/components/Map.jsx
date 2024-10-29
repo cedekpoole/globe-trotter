@@ -12,6 +12,7 @@ import { useCities } from "../contexts/CitiesContext";
 import PropTypes from "prop-types";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useUrlPosition } from "../hooks/useUrlPosition";
+import User from "./User";
 
 ChangeCenter.propTypes = {
   position: PropTypes.array.isRequired,
@@ -47,6 +48,7 @@ function Map() {
           {isLoadingPosition ? "Loading..." : "Get My Location"}
         </button>
       )}
+      <User />
       <MapContainer
         center={mapPosition}
         zoom={13}
