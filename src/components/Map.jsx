@@ -7,10 +7,11 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCities } from "../contexts/CitiesContext";
 import PropTypes from "prop-types";
 import { useGeolocation } from "../hooks/useGeolocation";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 
 ChangeCenter.propTypes = {
   position: PropTypes.array.isRequired,
@@ -19,15 +20,13 @@ ChangeCenter.propTypes = {
 function Map() {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState([51.505, -0.09]);
-  const [searchParams] = useSearchParams();
+  const [mapLat, mapLng] = useUrlPosition();
+
   const {
     isLoading: isLoadingPosition,
     position: geolocationPosition,
     getPosition,
   } = useGeolocation();
-
-  const mapLat = parseFloat(searchParams.get("lat"));
-  const mapLng = parseFloat(searchParams.get("lng"));
 
   useEffect(() => {
     if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
