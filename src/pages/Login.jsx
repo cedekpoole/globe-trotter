@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useAuth } from "../contexts/AuthContext";
 
-Login.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-};
-
-export default function Login({ setIsLoggedIn }) {
+export default function Login() {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty12345");
+  const [error, setError] = useState("");
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/app", { replace: true });
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setIsLoggedIn(true);
-    navigate("/app");
+    setError("");
+    if (email && password) {
+      const success = login(email, password);
+      if (!success) {
+        setError("Invalid email or password");
+      }
+    }
   };
 
   return (
@@ -26,6 +33,10 @@ export default function Login({ setIsLoggedIn }) {
         <h2 className="text-2xl font-bold text-center font-montserrat">
           Log in to GlobeTrotter
         </h2>
+
+        {error && (
+          <div className="text-red-500 text-center font-medium">{error}</div>
+        )}
 
         <div className="flex flex-col space-y-1">
           <label htmlFor="email" className="text-sm font-medium">

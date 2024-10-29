@@ -34,7 +34,7 @@ const reducer = (state, action) => {
 const FAKE_USER = {
   name: "Jack",
   email: "jack@example.com",
-  password: "qwerty",
+  password: "qwerty12345",
   avatar: "https://i.pravatar.cc/100?u=zz",
 };
 
@@ -46,7 +46,9 @@ function AuthProvider({ children }) {
   function login(email, password) {
     if (email === FAKE_USER.email && password === FAKE_USER.password) {
       dispatch({ type: "login", payload: FAKE_USER });
+      return true;
     }
+    return false;
   }
 
   function logout() {
@@ -65,6 +67,7 @@ function useAuth() {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+  return context;
 }
 
 export { AuthProvider, useAuth };
