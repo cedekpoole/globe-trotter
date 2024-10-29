@@ -15,9 +15,14 @@ const formatDate = (date) => {
 };
 
 function CityItem({ city }) {
-  const { currentCity } = useCities();
+  const { currentCity, deleteCity } = useCities();
 
   const { cityName, emoji, date, id, position } = city;
+
+  function handleClick(e) {
+    e.preventDefault();
+    deleteCity(id);
+  }
   return (
     <li>
       <Link
@@ -32,7 +37,10 @@ function CityItem({ city }) {
         </div>
         <div className="flex gap-3 items-center">
           <time>{formatDate(date)}</time>
-          <button className=" px-1.5 bg-[#1d1c1c] text-xl rounded-full">
+          <button
+            onClick={handleClick}
+            className=" px-1.5 bg-[#1d1c1c] text-xl rounded-full"
+          >
             &times;
           </button>
         </div>
