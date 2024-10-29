@@ -46,7 +46,6 @@ function Form() {
             throw new Error(
               "This area does not have city. Please try another location."
             );
-          console.log(data);
           setCityName(data.city || data.locality || "");
           setCountry(
             data.countryCode === "GB" ? "United Kingdom" : data.countryName
