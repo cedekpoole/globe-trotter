@@ -4,7 +4,7 @@ import AppNav from "./AppNav";
 
 export default function Sidebar() {
   return (
-    <aside className="w-full lg:w-1/3 p-6 flex flex-col justify-between">
+    <aside className="w-full lg:w-1/3 py-6 flex flex-col justify-between">
       <div className="space-y-20">
         <Logo />
         <div className="flex flex-col space-y-6">

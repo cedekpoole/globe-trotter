@@ -27,19 +27,19 @@ function CityItem({ city }) {
     <li>
       <Link
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
-        className={`flex justify-between py-2 px-3 bg-[#302e2e] rounded-lg items-center ${
+        className={`flex justify-between py-2 px-3 bg-[#302e2e] transition duration-200 hover:bg-[#363333] rounded-lg items-center ${
           currentCity.id === id ? "border-2 border-[#2A8D3F]" : ""
         }`}
       >
         <div className="flex gap-3 items-center">
           <p className="text-3xl">{emoji}</p>
-          <h2>{cityName}</h2>
+          <h2 className="font-semibold">{cityName}</h2>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center text-sm">
           <time>{formatDate(date)}</time>
           <button
             onClick={handleClick}
-            className=" px-1.5 bg-[#1d1c1c] text-xl rounded-full"
+            className=" px-2 bg-[#242424] text-xl rounded-full hover:bg-gray-200 hover:text-gray-700"
           >
             &times;
           </button>
