@@ -4,8 +4,9 @@ import { useUrlPosition } from "../hooks/useUrlPosition";
 import Loader from "./Loader";
 import Message from "./Message";
 import DatePicker from "react-datepicker";
-
+import { v4 as uuidv4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
+import { useCities } from "../contexts/CitiesContext";
 
 function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -18,6 +19,7 @@ function convertToEmoji(countryCode) {
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
 function Form() {
+  const { createCity } = useCities();
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
   const [date, setDate] = useState(new Date());
@@ -42,8 +44,14 @@ function Form() {
             throw new Error(
               "This area does not have city. Please try another location."
             );
+          console.log(data);
           setCityName(data.city || data.locality || "");
-          setCountry(data.countryName);
+          setCountry(
+            data.countryName ===
+              "United Kingdom of Great Britain and Northern Ireland (the)"
+              ? "United Kingdom"
+              : data.countryName
+          );
           setEmoji(convertToEmoji(data.countryCode));
         } catch (err) {
           setGeocodingError(err.message);
@@ -57,7 +65,20 @@ function Form() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    createCity(newCity);
   }
+
+  if (!cityName || !date) return;
+
+  const newCity = {
+    cityName,
+    country,
+    date,
+    notes,
+    position: { lat, lng },
+    emoji,
+    id: uuidv4(),
+  };
 
   if (isLoadingLocation) return <Loader />;
   if (!lat && !lng)
@@ -86,7 +107,14 @@ function Form() {
         <label htmlFor="date" className="font-light">
           WHEN DID YOU GO?
         </label>
-        <DatePicker selected={date} onChange={(date) => setDate(date)} />
+        <div className="p-1 bg-black rounded">
+          <DatePicker
+            selected={date}
+            onChange={(date) => setDate(date)}
+            dateFormat="dd/MM/yyyy"
+            id="date"
+          />
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
