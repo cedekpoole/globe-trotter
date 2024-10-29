@@ -47,10 +47,7 @@ function Form() {
           console.log(data);
           setCityName(data.city || data.locality || "");
           setCountry(
-            data.countryName ===
-              "United Kingdom of Great Britain and Northern Ireland (the)"
-              ? "United Kingdom"
-              : data.countryName
+            data.countryCode === "GB" ? "United Kingdom" : data.countryName
           );
           setEmoji(convertToEmoji(data.countryCode));
         } catch (err) {
