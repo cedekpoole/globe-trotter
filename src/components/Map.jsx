@@ -10,6 +10,7 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCities } from "../contexts/CitiesContext";
 import PropTypes from "prop-types";
+import { useGeolocation } from "../hooks/useGeolocation";
 
 ChangeCenter.propTypes = {
   position: PropTypes.array.isRequired,
@@ -17,9 +18,13 @@ ChangeCenter.propTypes = {
 
 function Map() {
   const { cities } = useCities();
-
   const [mapPosition, setMapPosition] = useState([51.505, -0.09]);
   const [searchParams] = useSearchParams();
+  const {
+    isLoading: isLoadingPosition,
+    position: geolocationPosition,
+    getPosition,
+  } = useGeolocation();
 
   const mapLat = parseFloat(searchParams.get("lat"));
   const mapLng = parseFloat(searchParams.get("lng"));
@@ -28,8 +33,21 @@ function Map() {
     if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
   }, [mapLat, mapLng]);
 
+  useEffect(() => {
+    if (geolocationPosition)
+      setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
+  }, [geolocationPosition]);
+
   return (
     <main className="w-full lg:w-2/3 p-6 h-screen flex-1 relative">
+      {!geolocationPosition && (
+        <button
+          className="absolute left-1/2 transform -translate-x-1/2 z-[1000] font-bold shadow-lg bottom-20  p-2 rounded bg-gradient-to-br from-[#2A8D3F] to-[#184663]"
+          onClick={getPosition}
+        >
+          {isLoadingPosition ? "Loading..." : "Get My Location"}
+        </button>
+      )}
       <MapContainer
         center={mapPosition}
         zoom={13}
