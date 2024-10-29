@@ -15,7 +15,7 @@ function CityList() {
       </Message>
     );
   return (
-    <ul className="flex flex-col gap-2 max-h-[300px] overflow-auto">
+    <ul className="flex flex-col gap-2 max-h-[358px] overflow-auto">
       {cities.map((city) => (
         <CityItem key={city.id} city={city} />
       ))}
