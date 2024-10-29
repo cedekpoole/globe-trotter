@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import PropTypes from "prop-types";
 
-const BASE_URL = "http://localhost:8000";
+// jsonbin.io base URL for your bin (update this with your bin ID)
+const BASE_URL = `${import.meta.env.VITE_JSON_BIN_BASE_URL}`;
+const API_KEY = import.meta.env.VITE_JSON_BIN_API_KEY;
 
 const CitiesContext = createContext();
 
@@ -66,9 +68,6 @@ function reducer(state, action) {
 }
 
 function CitiesProvider({ children }) {
-  // const [cities, setCities] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [currentCity, setCurrentCity] = useState({});
   const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
     reducer,
     initialState
@@ -78,9 +77,13 @@ function CitiesProvider({ children }) {
     async function fetchCities() {
       dispatch({ type: "loading" });
       try {
-        const res = await fetch(`${BASE_URL}/cities`);
+        const res = await fetch(`${BASE_URL}`, {
+          headers: {
+            "X-Master-Key": API_KEY,
+          },
+        });
         const data = await res.json();
-        dispatch({ type: "cities/loaded", payload: data });
+        dispatch({ type: "cities/loaded", payload: data.record.cities });
       } catch {
         dispatch({ type: "rejected", payload: "Failed to fetch cities" });
       }
@@ -89,13 +92,14 @@ function CitiesProvider({ children }) {
   }, []);
 
   async function getCityByID(id) {
-    if (!Number(id) === currentCity.id) return;
-
     dispatch({ type: "loading" });
     try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      dispatch({ type: "city/loaded", payload: data });
+      const city = cities.find((city) => city.id === id);
+      if (city) {
+        dispatch({ type: "city/loaded", payload: city });
+      } else {
+        throw new Error("City not found");
+      }
     } catch {
       dispatch({ type: "rejected", payload: "Failed to fetch city" });
     }
@@ -104,15 +108,17 @@ function CitiesProvider({ children }) {
   async function createCity(newCity) {
     dispatch({ type: "loading" });
     try {
-      const res = await fetch(`${BASE_URL}/cities`, {
-        method: "POST",
-        body: JSON.stringify(newCity),
+      const updatedCities = [...cities, newCity];
+      const res = await fetch(`${BASE_URL}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "X-Master-Key": API_KEY,
         },
+        body: JSON.stringify({ cities: updatedCities }),
       });
-      const data = await res.json();
-      dispatch({ type: "city/created", payload: data });
+      await res.json();
+      dispatch({ type: "city/created", payload: newCity });
     } catch {
       dispatch({ type: "rejected", payload: "Failed to create city" });
     }
@@ -121,8 +127,14 @@ function CitiesProvider({ children }) {
   async function deleteCity(id) {
     dispatch({ type: "loading" });
     try {
-      await fetch(`${BASE_URL}/cities/${id}`, {
-        method: "DELETE",
+      const updatedCities = cities.filter((city) => city.id !== id);
+      await fetch(`${BASE_URL}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": API_KEY,
+        },
+        body: JSON.stringify({ cities: updatedCities }),
       });
       dispatch({ type: "city/deleted", payload: id });
     } catch {
