@@ -3,6 +3,9 @@ import BackBtn from "./BackBtn";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Loader from "./Loader";
 import Message from "./Message";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -12,20 +15,12 @@ function convertToEmoji(countryCode) {
   return String.fromCodePoint(...codePoints);
 }
 
-const formatDate = (date) => {
-  return new Date(date).toLocaleDateString("en-UK", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-};
-
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
 function Form() {
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
-  const [date, setDate] = useState(formatDate(new Date()));
+  const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [lat, lng] = useUrlPosition();
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -60,13 +55,20 @@ function Form() {
     getCityName();
   }, [lat, lng]);
 
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
   if (isLoadingLocation) return <Loader />;
   if (!lat && !lng)
     return <Message>Click on the map to add a new location!</Message>;
   if (geocodingError) return <Message>{geocodingError}</Message>;
 
   return (
-    <form className="flex flex-col gap-4 bg-[#302e2e] rounded-lg p-4 shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 bg-[#302e2e] rounded-lg p-4 shadow-md"
+    >
       <div className="flex flex-col gap-2 relative">
         <label htmlFor="cityName" className="font-light">
           CITY NAME
@@ -84,12 +86,7 @@ function Form() {
         <label htmlFor="date" className="font-light">
           WHEN DID YOU GO?
         </label>
-        <input
-          id="date"
-          onChange={(e) => setDate(e.target.value)}
-          value={date}
-          className="p-1 rounded"
-        />
+        <DatePicker selected={date} onChange={(date) => setDate(date)} />
       </div>
 
       <div className="flex flex-col gap-2">
@@ -105,7 +102,7 @@ function Form() {
       </div>
 
       <div className="flex justify-between">
-        <button onClick={(e) => e.preventDefault()}>Add</button>
+        <button>Add</button>
         <BackBtn>&larr; Back</BackBtn>
       </div>
     </form>
