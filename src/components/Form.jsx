@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import { v4 as uuidv4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
 import { useCities } from "../contexts/CitiesContext";
+import { useNavigate } from "react-router-dom";
 
 function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -19,7 +20,7 @@ function convertToEmoji(countryCode) {
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
 function Form() {
-  const { createCity } = useCities();
+  const { createCity, isLoading } = useCities();
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
   const [date, setDate] = useState(new Date());
@@ -28,6 +29,7 @@ function Form() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [emoji, setEmoji] = useState("");
   const [geocodingError, setGeocodingError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getCityName() {
@@ -60,22 +62,23 @@ function Form() {
     getCityName();
   }, [lat, lng]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    createCity(newCity);
+    if (!cityName || !date) return;
+
+    const newCity = {
+      cityName,
+      country,
+      date,
+      notes,
+      position: { lat, lng },
+      emoji,
+      id: uuidv4(),
+    };
+
+    await createCity(newCity);
+    navigate("/app/cities");
   }
-
-  if (!cityName || !date) return;
-
-  const newCity = {
-    cityName,
-    country,
-    date,
-    notes,
-    position: { lat, lng },
-    emoji,
-    id: uuidv4(),
-  };
 
   if (isLoadingLocation) return <Loader />;
   if (!lat && !lng)
@@ -85,7 +88,9 @@ function Form() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 bg-[#302e2e] rounded-lg p-4 shadow-md"
+      className={`flex flex-col gap-4 bg-[#302e2e] rounded-lg p-4 shadow-md ${
+        isLoading ? "pointer-events-none opacity-30" : ""
+      }`}
     >
       <div className="flex flex-col gap-2 relative">
         <label htmlFor="cityName" className="font-light">

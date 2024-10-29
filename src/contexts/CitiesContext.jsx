@@ -43,6 +43,7 @@ function CitiesProvider({ children }) {
 
   async function createCity(newCity) {
     try {
+      setIsLoading(true);
       const res = await fetch(`${BASE_URL}/cities`, {
         method: "POST",
         body: JSON.stringify(newCity),
