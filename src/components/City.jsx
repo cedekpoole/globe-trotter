@@ -18,7 +18,7 @@ function City() {
 
   useEffect(() => {
     getCityByID(id);
-  }, [id]);
+  }, [id, getCityByID]);
 
   const { cityName, date, emoji, notes } = currentCity;
 

@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import PropTypes from "prop-types";
 
 // jsonbin.io base URL for your bin (update this with your bin ID)
@@ -91,19 +97,22 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
-  async function getCityByID(id) {
-    dispatch({ type: "loading" });
-    try {
-      const city = cities.find((city) => city.id === id);
-      if (city) {
-        dispatch({ type: "city/loaded", payload: city });
-      } else {
-        throw new Error("City not found");
+  const getCityByID = useCallback(
+    async (id) => {
+      dispatch({ type: "loading" });
+      try {
+        const city = cities.find((city) => city.id === id);
+        if (city) {
+          dispatch({ type: "city/loaded", payload: city });
+        } else {
+          throw new Error("City not found");
+        }
+      } catch {
+        dispatch({ type: "rejected", payload: "Failed to fetch city" });
       }
-    } catch {
-      dispatch({ type: "rejected", payload: "Failed to fetch city" });
-    }
-  }
+    },
+    [cities]
+  );
 
   async function createCity(newCity) {
     dispatch({ type: "loading" });
