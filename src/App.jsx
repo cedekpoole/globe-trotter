@@ -26,7 +26,7 @@ const AppLayout = lazy(() => import("./pages/AppLayout"));
 function App() {
   return (
     <div className="container mx-auto min-h-screen font-raleway">
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader fullScreen={true} />}>
         <Routes>
           <Route
             index
